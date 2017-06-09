@@ -28,7 +28,10 @@ for (let i = 0; i < operators.length; i++) {
 let display = document.querySelector('.display');
 
 let equalsButton = document.querySelector('.calculate');
-equalsButton.addEventListener('click', performOperation)
+equalsButton.addEventListener('click', performOperation);
+
+let clearButton = document.querySelector('.clear');
+clearButton.addEventListener('click', clearAll);
 
 // this function takes an array containing the operands and operation to be done
 function performOperation() {
@@ -39,21 +42,28 @@ function performOperation() {
   display.textContent = result;
 }
 
-// addOperand happens every time a # button is pressed
+// addOperand happens every time a digit is pressed
 function addOperand(event) {
-  if (!isTyping) {
-    display.textContent = "";
-    display.textContent += event.target.id;
-    isTyping = true;
+  if (!isTyping) {  // if the user is starting a new #,
+    display.textContent = ""; // clear the display,
+    display.textContent += event.target.id; // add the new digit,
+    isTyping = true;  // set the flag to allow more digits to be entered
   } else {
-    display.textContent += event.target.id;
+    display.textContent += event.target.id; // user is still adding digits
   }
   console.log(event.target.id);
 }
 
 function addOperator(event) {
-  isTyping = false;
-  operands.push(parseFloat(display.textContent));
-  nextOperation.push(event.target.id);
+  isTyping = false; // user must be done typing in a number
+  operands.push(parseFloat(display.textContent)); // push the current # to our stack
+  nextOperation.push(event.target.id);  // add the operation to perform
   console.log(event.target.id);
+}
+
+function clearAll() {
+  isTyping = false;
+  operands.length = 0;  // clear any operands in the stack
+  nextOperation.length = 0; // clear incomplete operations
+  display.textContent = "0";  // clear the display
 }
