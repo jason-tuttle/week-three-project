@@ -35,3 +35,9 @@ body {
   background-color: #82C276;
   color: black;
 }
+.operate:hover {
+  background-color: #B6DBB2;
+}
+.button:active {
+  color: darkred;
+}
