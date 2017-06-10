@@ -35,11 +35,13 @@ clearButton.addEventListener('click', clearAll);
 
 // this function takes an array containing the operands and operation to be done
 function performOperation() {
-  console.log("I'm performing an operation!");
+  // console.log("I'm performing an operation!");
   isTyping = false;
   operands.push(parseFloat(display.textContent));
   const result = operations[nextOperation.pop()](operands.shift(), operands.shift());
-  display.textContent = result;
+  if (isFloat(result)) {
+    display.textContent = result.toFixed(4);
+  } else display.textContent = result;
 }
 
 // addOperand happens every time a digit is pressed
@@ -51,14 +53,14 @@ function addOperand(event) {
   } else {
     display.textContent += event.target.id; // user is still adding digits
   }
-  console.log(event.target.id);
+  // console.log(event.target.id);
 }
 
 function addOperator(event) {
   isTyping = false; // user must be done typing in a number
   operands.push(parseFloat(display.textContent)); // push the current # to our stack
   nextOperation.push(event.target.id);  // add the operation to perform
-  console.log(event.target.id);
+  // console.log(event.target.id);
 }
 
 function clearAll() {
@@ -66,4 +68,7 @@ function clearAll() {
   operands.length = 0;  // clear any operands in the stack
   nextOperation.length = 0; // clear incomplete operations
   display.textContent = "0";  // clear the display
+}
+function isFloat(num) {
+  return (num % 1 != 0);
 }

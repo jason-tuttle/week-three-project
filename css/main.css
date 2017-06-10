@@ -24,6 +24,12 @@ body {
   border: 1px solid #B6DBB2;
   color: white;
 }
+.button:hover {
+  cursor: pointer;
+}
+.number:hover {
+  color: black;
+}
 .display {
   text-align: right;
   flex: 1 0 200px;
@@ -31,12 +37,18 @@ body {
   padding: 35px 10px 35px 0;
   background-color: lightgray;
 }
-.operate {
+.operate, .calculate {
   background-color: #82C276;
   color: black;
 }
-.operate:hover {
+.operate:hover, .calculate:hover {
   background-color: #B6DBB2;
+}
+.clear {
+  background-color: orange;
+}
+.clear:hover {
+  background-color: darkorange;
 }
 .button:active {
   color: darkred;
