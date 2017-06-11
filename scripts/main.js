@@ -4,14 +4,19 @@ let operators = document.querySelectorAll('.operate');
 
 // need to store some things
 let isTyping = false;
-let operands = [];
-let nextOperation = [];
-
+const operands = [];
+const nextOperation = [];
 const operations = {
   add: function(op1, op2) { return op1 + op2; },
   subtract: function(op1, op2) { return op1 - op2; },
   multiply: function(op1, op2) { return op1 * op2; },
   divide: function(op1, op2) { return op1 / op2; },
+};
+const opOrder = {
+  subtract: 0,
+  add: 1,
+  divide: 2,
+  multiply: 3
 };
 
 // get a hook into all the # buttons
@@ -28,20 +33,37 @@ for (let i = 0; i < operators.length; i++) {
 let display = document.querySelector('.display');
 
 let equalsButton = document.querySelector('.calculate');
-equalsButton.addEventListener('click', performOperation);
+equalsButton.addEventListener('click', evaluate);
 
 let clearButton = document.querySelector('.clear');
 clearButton.addEventListener('click', clearAll);
 
 // this function takes an array containing the operands and operation to be done
-function performOperation() {
+function performOperation(ops, op) {
+  return operations[op[0]](ops.shift(), ops.shift());
+}
+
+function evaluate() {
   // console.log("I'm performing an operation!");
   isTyping = false;
   operands.push(parseFloat(display.textContent));
-  const result = operations[nextOperation.pop()](operands.shift(), operands.shift());
-  if (isFloat(result)) {
+  while(nextOperation.length > 1) {
+    let todo = nextOperation[0];
+    let index = 0;
+    for (let i = 1; i < nextOperation.length; i++) {
+      if (opOrder[nextOperation[i]] > opOrder[todo]) {
+        todo = nextOperation[i];
+        index = i;
+      }
+    }
+    let tempOps = operands.splice(index, 2);
+    let result = performOperation(tempOps, nextOperation.splice(index, 1));
+    operands.splice(index, 0, result);
+  }
+  let finalResult = performOperation(operands, nextOperation);
+  if (isFloat(finalResult)) {
     display.textContent = result.toFixed(4);
-  } else display.textContent = result;
+  } else display.textContent = finalResult;
 }
 
 // addOperand happens every time a digit is pressed
