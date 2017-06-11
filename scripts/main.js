@@ -11,12 +11,15 @@ const operations = {
   subtract: function(op1, op2) { return op1 - op2; },
   multiply: function(op1, op2) { return op1 * op2; },
   divide: function(op1, op2) { return op1 / op2; },
+  modulo: function(op1, op2) { return op1 % op2; },
+  sqrt: function(op1) { return Math.sqrt(op1); }
 };
 const opOrder = {
   subtract: 0,
   add: 1,
   divide: 2,
-  multiply: 3
+  multiply: 3,
+  modulo: 4
 };
 
 // get a hook into all the # buttons
