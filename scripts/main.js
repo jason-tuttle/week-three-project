@@ -7,12 +7,12 @@ let isTyping = false;
 const operands = [];
 const nextOperation = [];
 const operations = {
-  add: function(op1, op2) { return op1 + op2; },
-  subtract: function(op1, op2) { return op1 - op2; },
-  multiply: function(op1, op2) { return op1 * op2; },
-  divide: function(op1, op2) { return op1 / op2; },
-  modulo: function(op1, op2) { return op1 % op2; },
-  sqrt: function(op1) { return Math.sqrt(op1); }
+  add: (op1, op2) => op1 + op2 ,
+  subtract: (op1, op2) => op1 - op2 ,
+  multiply: (op1, op2) => op1 * op2 ,
+  divide: (op1, op2) => op1 / op2 ,
+  modulo: (op1, op2) => op1 % op2 ,
+  sqrt: (op1) => Math.sqrt(op1)
 };
 const opOrder = {
   subtract: 0,
