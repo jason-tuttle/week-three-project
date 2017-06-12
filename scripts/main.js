@@ -2,6 +2,9 @@
 let buttons = document.querySelectorAll('.number');
 let operators = document.querySelectorAll('.operate');
 
+// CONSTANTS
+const DISPLAY_DIGITS = 16; // how many digits fit in the display div
+
 // need to store some things
 let isTyping = false;
 const operands = [];
@@ -70,10 +73,11 @@ function evaluate() {
     finalResult = performOperation(operands, nextOperation.splice(0, 1));
   }
   let numLength = String(finalResult).length;
-  if (numLength > 15) {
+  if (numLength > DISPLAY_DIGITS) {
     if (isFloat(finalResult)) {
-      display.textContent = finalResult.toPrecision(16);
-    } else display.textContent = "E";
+      let decimals = DISPLAY_DIGITS - String(Math.trunc(finalResult)).length;
+      display.textContent = finalResult.toFixed(decimals);
+    } else display.textContent = "ERROR";
   } else display.textContent = finalResult;
 
 }
