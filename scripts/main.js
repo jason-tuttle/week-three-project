@@ -14,12 +14,14 @@ const operations = {
   modulo: (op1, op2) => op1 % op2 ,
   sqrt: (op1) => Math.sqrt(op1)
 };
+
 const opOrder = {
   subtract: 0,
   add: 1,
   divide: 2,
   multiply: 3,
-  modulo: 4
+  modulo: 4,
+  sqrt: 5,
 };
 
 // get a hook into all the # buttons
@@ -47,26 +49,33 @@ function performOperation(ops, op) {
 }
 
 function evaluate() {
+  let finalResult;
   // console.log("I'm performing an operation!");
   isTyping = false;
   operands.push(parseFloat(display.textContent));
-  while(nextOperation.length > 1) {
-    let todo = nextOperation[0];
-    let index = 0;
-    for (let i = 1; i < nextOperation.length; i++) {
-      if (opOrder[nextOperation[i]] > opOrder[todo]) {
-        todo = nextOperation[i];
-        index = i;
+  if (nextOperation.length > 0) {
+    while(nextOperation.length > 1) {
+      let todo = nextOperation[0];
+      let index = 0;
+      for (let i = 1; i < nextOperation.length; i++) {
+        if (opOrder[nextOperation[i]] > opOrder[todo]) {
+          todo = nextOperation[i];
+          index = i;
+        }
       }
+      let tempOps = operands.splice(index, 2);
+      let result = performOperation(tempOps, nextOperation.splice(index, 1));
+      operands.splice(index, 0, result);
     }
-    let tempOps = operands.splice(index, 2);
-    let result = performOperation(tempOps, nextOperation.splice(index, 1));
-    operands.splice(index, 0, result);
+    finalResult = performOperation(operands, nextOperation.splice(0, 1));
   }
-  let finalResult = performOperation(operands, nextOperation);
-  if (isFloat(finalResult)) {
-    display.textContent = result.toFixed(4);
+  let numLength = String(finalResult).length;
+  if (numLength > 15) {
+    if (isFloat(finalResult)) {
+      display.textContent = finalResult.toPrecision(16);
+    } else display.textContent = "E";
   } else display.textContent = finalResult;
+
 }
 
 // addOperand happens every time a digit is pressed
